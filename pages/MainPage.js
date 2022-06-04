@@ -5,7 +5,8 @@ const main = 'https://storage.googleapis.com/sparta-image.appspot.com/lecture/ma
 import data from '../data.json';
 import Card from '../components/Card';
 import Loading from '../components/Loading';
-export default function MainPage() {
+import { StatusBar } from 'expo-status-bar';
+export default function MainPage({navigation,route}) {
   //useState 사용법
 	//[state,setState] 에서 state는 이 컴포넌트에서 관리될 상태 데이터를 담고 있는 변수
   //setState는 state를 변경시킬때 사용해야하는 함수
@@ -24,10 +25,14 @@ export default function MainPage() {
 		//뒤의 1000 숫자는 1초를 뜻함
     //1초 뒤에 실행되는 코드들이 담겨 있는 함수
     setTimeout(()=>{
+        //헤더의 타이틀 변경
+        navigation.setOptions({
+          title:'나만의 꿀팁'
+      })  
         setState(data.tip)
         setCateState(data.tip)
         setReady(false)
-    },10000)
+    },1000)
  
     
   },[])
@@ -52,8 +57,10 @@ export default function MainPage() {
     /*
       return 구문 안에서는 {슬래시 + * 방식으로 주석
     */
+
     <ScrollView style={styles.container}>
-      <Text style={styles.title}>나만의 꿀팁</Text>
+      <StatusBar style="light" />
+      {/* <Text style={styles.title}>나만의 꿀팁</Text> */}
 			 <Text style={styles.weather}>오늘의 날씨: {todayWeather + '°C ' + todayCondition} </Text>
       <Image style={styles.mainImage} source={{uri:main}}/>
       <ScrollView style={styles.middleContainer} horizontal indicatorStyle={"white"}>
@@ -67,7 +74,7 @@ export default function MainPage() {
          {/* 하나의 카드 영역을 나타내는 View */}
          {
           cateState.map((content,i)=>{
-            return (<Card content={content} key={i}/>)
+            return (<Card content={content} key={i} navigation={navigation}/>)
           })
         }
         

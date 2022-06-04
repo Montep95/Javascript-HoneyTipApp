@@ -6,3 +6,13 @@
 [![Build Status](https://travis-ci.org/joemccann/dillinger.svg?branch=master)](https://travis-ci.org/joemccann/dillinger)
 
 Montep95(Gnob) is a android, java, mobile-application Developer.
+
+# Update
+22.06.04 : Add Navigator.
+- Javascript / React-Native
+- import NavigationContainer, StackNavigator
+- Enable to move pages
+
+22.06.03 : Create Project Introduction.
+- Javascript / React-Native
+- Create many app pages
