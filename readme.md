@@ -8,6 +8,11 @@
 Montep95(Gnob) is a android, java, mobile-application Developer.
 
 # Update
+22.06.05 : Add Like Function
+- Add Like Page
+- Modify MainPage, DetailPage
+- Additional navigator 
+
 22.06.04 : Add Navigator.
 - Javascript / React-Native
 - import NavigationContainer, StackNavigator
