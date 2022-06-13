@@ -8,6 +8,10 @@
 Montep95(Gnob) is a android, java, mobile-application Developer.
 
 # Update
+22.06.13 : Add Expo-Location Function
+- Connecting Expo-Location
+- Set Location Permissions
+
 22.06.05 : Add Like Function
 - Add Like Page
 - Modify MainPage, DetailPage

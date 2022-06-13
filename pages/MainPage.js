@@ -1,91 +1,106 @@
 import React,{useState,useEffect} from 'react';
-import main from '../assets/main.png';
 import { StyleSheet, Text, View, Image, TouchableOpacity, ScrollView} from 'react-native';
+
+const main = 'https://firebasestorage.googleapis.com/v0/b/sparta-image.appspot.com/o/lecture%2Fmain.png?alt=media&token=8e5eb78d-19ee-4359-9209-347d125b322c'
 import data from '../data.json';
 import Card from '../components/Card';
 import Loading from '../components/Loading';
 import { StatusBar } from 'expo-status-bar';
-
+import * as Location from "expo-location";
 export default function MainPage({navigation,route}) {
-  console.disableYellowBox = true;
-  //return 구문 밖에서는 슬래시 두개 방식으로 주석
+  //useState 사용법
+	//[state,setState] 에서 state는 이 컴포넌트에서 관리될 상태 데이터를 담고 있는 변수
+  //setState는 state를 변경시킬때 사용해야하는 함수
 
-  //기존 꿀팁을 저장하고 있을 상태
+  //모두 다 useState가 선물해줌
+  //useState()안에 전달되는 값은 state 초기값
   const [state,setState] = useState([])
-  //카테고리에 따라 다른 꿀팁을 그때그때 저장관리할 상태
   const [cateState,setCateState] = useState([])
 
-  //컴포넌트에 상태를 여러개 만들어도 됨
-  //관리할 상태이름과 함수는 자유자재로 정의할 수 있음
-  //초기 상태값으로 리스트, 참거짓형, 딕셔너리, 숫자, 문자 등등 다양하게 들어갈 수 있음.
+	//하단의 return 문이 실행되어 화면이 그려진다음 실행되는 useEffect 함수
+  //내부에서 data.json으로 부터 가져온 데이터를 state 상태에 담고 있음
   const [ready,setReady] = useState(true)
 
   useEffect(()=>{
-	   
-    //뒤의 1000 숫자는 1초를 뜻함
+    navigation.setOptions({
+      title:'나만의 꿀팁'
+    })  
+		//뒤의 1000 숫자는 1초를 뜻함
     //1초 뒤에 실행되는 코드들이 담겨 있는 함수
     setTimeout(()=>{
         //헤더의 타이틀 변경
-        navigation.setOptions({
-            title:'나만의 꿀팁'
-        })
-        //꿀팁 데이터로 모두 초기화 준비
-        let tip = data.tip;
-        setState(tip)
-        setCateState(tip)
+        getLocation()
+        setState(data.tip)
+        setCateState(data.tip)
         setReady(false)
     },1000)
-
+ 
     
   },[])
 
-    const category = (cate) => {
-        if(cate == "전체보기"){
-            //전체보기면 원래 꿀팁 데이터를 담고 있는 상태값으로 다시 초기화
-            setCateState(state)
-        }else{
-            setCateState(state.filter((d)=>{
-                return d.category == cate
-            }))
-        }
+  const getLocation = async () => {
+    //수많은 로직중에 에러가 발생하면
+    //해당 에러를 포착하여 로직을 멈추고,에러를 해결하기 위한 catch 영역 로직이 실행
+    try {
+      //자바스크립트 함수의 실행순서를 고정하기 위해 쓰는 async,await
+      await Location.requestForegroundPermissionsAsync();
+      const locationData= await Location.getCurrentPositionAsync();
+      console.log(locationData['coords']['latitude'])
+      console.log(locationData['coords']['longitude'])
+
+    } catch (error) {
+      //혹시나 위치를 못가져올 경우를 대비해서, 안내를 준비합니다
+      Alert.alert("위치를 찾을 수가 없습니다.", "앱을 껏다 켜볼까요?");
     }
+  }
 
+  const category = (cate) => {
+    if(cate == "전체보기"){
+        //전체보기면 원래 꿀팁 데이터를 담고 있는 상태값으로 다시 초기화
+        setCateState(state)
+    }else{
+        setCateState(state.filter((d)=>{
+            return d.category == cate
+        }))
+    }
+}
 
-	let todayWeather = 10 + 17;
-    let todayCondition = "흐림"
-
-	//처음 ready 상태값은 true 이므로 ? 물음표 바로 뒤에 값이 반환(그려짐)됨
-  //useEffect로 인해 데이터가 준비되고, ready 값이 변경되면 : 콜론 뒤의 값이 반환(그려짐)
+  //data.json 데이터는 state에 담기므로 상태에서 꺼내옴
+  // let tip = state.tip;
+  let todayWeather = 10 + 17;
+  let todayCondition = "흐림"
+  //return 구문 밖에서는 슬래시 두개 방식으로 주석
   return ready ? <Loading/> :  (
     /*
       return 구문 안에서는 {슬래시 + * 방식으로 주석
     */
+
     <ScrollView style={styles.container}>
-        <StatusBar style="black" />
-        {/* <Text style={styles.title}>나만의 꿀팁</Text> */}
-        <Text style={styles.weather}>오늘의 날씨: {todayWeather + '°C ' + todayCondition} </Text>
-        <TouchableOpacity style={styles.aboutButton} onPress={()=>{navigation.navigate('AboutPage')}}>
+      <StatusBar style="light" />
+      {/* <Text style={styles.title}>나만의 꿀팁</Text> */}
+			 <Text style={styles.weather}>오늘의 날씨: {todayWeather + '°C ' + todayCondition} </Text>
+       <TouchableOpacity style={styles.aboutButton} onPress={()=>{navigation.navigate('AboutPage')}}>
           <Text style={styles.aboutButtonText}>소개 페이지</Text>
         </TouchableOpacity>
-        <Image style={styles.mainImage} source={main}/>
-        <ScrollView style={styles.middleContainer} horizontal indicatorStyle={"white"}>
-            <TouchableOpacity style={styles.middleButtonAll} onPress={()=>{category('전체보기')}}><Text style={styles.middleButtonTextAll}>전체보기</Text></TouchableOpacity>
-            <TouchableOpacity style={styles.middleButton01} onPress={()=>{category('생활')}}><Text style={styles.middleButtonText}>생활</Text></TouchableOpacity>
-            <TouchableOpacity style={styles.middleButton02} onPress={()=>{category('재테크')}}><Text style={styles.middleButtonText}>재테크</Text></TouchableOpacity>
-            <TouchableOpacity style={styles.middleButton03} onPress={()=>{category('반려견')}}><Text style={styles.middleButtonText}>반려견</Text></TouchableOpacity>
-            <TouchableOpacity style={styles.middleButton04} onPress={()=>{navigation.navigate('LikePage')}}><Text style={styles.middleButtonText}>꿀팁 찜</Text></TouchableOpacity>
-        </ScrollView>
-        <View style={styles.cardContainer}>
-            {/* 하나의 카드 영역을 나타내는 View */}
-            {
-            cateState.map((content,i)=>{
-                return (<Card content={content} key={i} navigation={navigation}/>)
-            })
-            }
-            
-        </View>
-    </ScrollView>
-  );
+      <Image style={styles.mainImage} source={{uri:main}}/>
+      <ScrollView style={styles.middleContainer} horizontal indicatorStyle={"white"}>
+      <TouchableOpacity style={styles.middleButtonAll} onPress={()=>{category('전체보기')}}><Text style={styles.middleButtonTextAll}>전체보기</Text></TouchableOpacity>
+        <TouchableOpacity style={styles.middleButton01} onPress={()=>{category('생활')}}><Text style={styles.middleButtonText}>생활</Text></TouchableOpacity>
+        <TouchableOpacity style={styles.middleButton02} onPress={()=>{category('재테크')}}><Text style={styles.middleButtonText}>재테크</Text></TouchableOpacity>
+        <TouchableOpacity style={styles.middleButton03} onPress={()=>{category('반려견')}}><Text style={styles.middleButtonText}>반려견</Text></TouchableOpacity>
+        <TouchableOpacity style={styles.middleButton04} onPress={()=>{navigation.navigate('LikePage')}}><Text style={styles.middleButtonText}>꿀팁 찜</Text></TouchableOpacity>
+      </ScrollView>
+      <View style={styles.cardContainer}>
+         {/* 하나의 카드 영역을 나타내는 View */}
+         {
+          cateState.map((content,i)=>{
+            return (<Card content={content} key={i} navigation={navigation}/>)
+          })
+        }
+        
+      </View>
+   
+    </ScrollView>)
 }
 
 const styles = StyleSheet.create({
