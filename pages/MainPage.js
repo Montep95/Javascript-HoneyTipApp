@@ -1,12 +1,14 @@
 import React,{useState,useEffect} from 'react';
 import { StyleSheet, Text, View, Image, TouchableOpacity, ScrollView} from 'react-native';
 
-const main = 'https://firebasestorage.googleapis.com/v0/b/sparta-image.appspot.com/o/lecture%2Fmain.png?alt=media&token=8e5eb78d-19ee-4359-9209-347d125b322c'
+const main = 'https://storage.googleapis.com/sparta-image.appspot.com/lecture/main.png'
 import data from '../data.json';
 import Card from '../components/Card';
 import Loading from '../components/Loading';
 import { StatusBar } from 'expo-status-bar';
 import * as Location from "expo-location";
+import axios from "axios"
+
 export default function MainPage({navigation,route}) {
   //useState 사용법
 	//[state,setState] 에서 state는 이 컴포넌트에서 관리될 상태 데이터를 담고 있는 변수
@@ -16,6 +18,11 @@ export default function MainPage({navigation,route}) {
   //useState()안에 전달되는 값은 state 초기값
   const [state,setState] = useState([])
   const [cateState,setCateState] = useState([])
+  //날씨 데이터 상태관리 상태 생성!
+  const [weather, setWeather] = useState({
+    temp : 0,
+    condition : ''
+  })
 
 	//하단의 return 문이 실행되어 화면이 그려진다음 실행되는 useEffect 함수
   //내부에서 data.json으로 부터 가져온 데이터를 state 상태에 담고 있음
@@ -45,8 +52,28 @@ export default function MainPage({navigation,route}) {
       //자바스크립트 함수의 실행순서를 고정하기 위해 쓰는 async,await
       await Location.requestForegroundPermissionsAsync();
       const locationData= await Location.getCurrentPositionAsync();
+      console.log(locationData)
       console.log(locationData['coords']['latitude'])
       console.log(locationData['coords']['longitude'])
+      const latitude = locationData['coords']['latitude']
+      const longitude = locationData['coords']['longitude']
+      const API_KEY = "cfc258c75e1da2149c33daffd07a911d";
+      const result = await axios.get(
+        `http://api.openweathermap.org/data/2.5/weather?lat=${latitude}&lon=${longitude}&appid=${API_KEY}&units=metric`
+      );
+
+      console.log(result)
+      const temp = result.data.main.temp; 
+      const condition = result.data.weather[0].main
+      
+      console.log(temp)
+      console.log(condition)
+
+      //오랜만에 복습해보는 객체 리터럴 방식으로 딕셔너리 구성하기!!
+      //잘 기억이 안난다면 1주차 강의 6-5를 다시 복습해보세요!
+      setWeather({
+        temp,condition
+      })
 
     } catch (error) {
       //혹시나 위치를 못가져올 경우를 대비해서, 안내를 준비합니다
@@ -78,7 +105,7 @@ export default function MainPage({navigation,route}) {
     <ScrollView style={styles.container}>
       <StatusBar style="light" />
       {/* <Text style={styles.title}>나만의 꿀팁</Text> */}
-			 <Text style={styles.weather}>오늘의 날씨: {todayWeather + '°C ' + todayCondition} </Text>
+      <Text style={styles.weather}>오늘의 날씨: {weather.temp + '°C   ' + weather.condition} </Text>
        <TouchableOpacity style={styles.aboutButton} onPress={()=>{navigation.navigate('AboutPage')}}>
           <Text style={styles.aboutButtonText}>소개 페이지</Text>
         </TouchableOpacity>
