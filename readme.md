@@ -10,7 +10,9 @@ Montep95(Gnob) is a android, java, mobile-application Developer.
 # Update
 22.06.30 : Linking database (Firebase)
 - Update Like Button
-- Upload (data.json) to realtime database 
+- Upload (data.json) to realtime database
+- Add (remove like) button
+
 
 22.06.14 : Add SetState(Weather) & Firebase
 - Update Firebase Service (initial Version)

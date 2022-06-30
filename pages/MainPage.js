@@ -7,8 +7,8 @@ import Card from '../components/Card';
 import Loading from '../components/Loading';
 import { StatusBar } from 'expo-status-bar';
 import * as Location from "expo-location";
-import axios from "axios"
-import {firebase_db} from "../firebaseConfig"
+import axios from "axios";
+import {firebase_db} from "../firebaseConfig";
 
 export default function MainPage({navigation,route}) {
   //useState 사용법

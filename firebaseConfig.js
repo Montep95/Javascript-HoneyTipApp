@@ -10,7 +10,7 @@ import "firebase/compat/storage";
 // Initialize Firebase
 //파이어베이스 사이트에서 봤던 연결정보를 여기에 가져옵니다
 const firebaseConfig = {
-
+    
 };
 
 //사용 방법입니다. 

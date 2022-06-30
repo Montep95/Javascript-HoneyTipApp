@@ -1,7 +1,7 @@
 import React,{useState,useEffect} from 'react';
 import { StyleSheet, Text, View, Image, ScrollView,TouchableOpacity,Alert,Share,Platform } from 'react-native';
 import * as Linking from 'expo-linking';
-import {firebase_db} from "../firebaseConfig"
+import {firebase_db} from "../firebaseConfig";
 import * as Application from 'expo-application';
 const isIOS = Platform.OS === 'ios';
 
