@@ -38,6 +38,7 @@ export default function MainPage({navigation,route}) {
   //내부에서 data.json으로 부터 가져온 데이터를 state 상태에 담고 있음
   const [ready,setReady] = useState(true)
 
+  
   useEffect(()=>{
     navigation.setOptions({
       title:'나만의 꿀팁'

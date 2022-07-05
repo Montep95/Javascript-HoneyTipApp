@@ -37,6 +37,7 @@ export default function Card({content,navigation}){
               //광고가 끝나면 다음 코드 줄이 실행!
             console.log("interstitialDidClose")
           
+            
         });
     },[])
     const goDetail = async () =>{

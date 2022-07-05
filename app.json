@@ -1,7 +1,7 @@
 {
   "expo": {
     "name": "sparta-myhoneytip-gnob",
-    "slug": "sparta-myhoneytip-gnob",
+    "slug": "Mytips",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
@@ -18,13 +18,20 @@
       "**/*"
     ],
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "buildNumber": "1.0.0",
+      "bundleIdentifier": "com.myhoneytip.gnob",
+      "config": {
+        "googleMobileAdsAppId": ""
+      }
     },
     "android": {
-      "adaptiveIcon": {
-        "foregroundImage": "./assets/adaptive-icon.png",
-        "backgroundColor": "#FFFFFF"
-      }
+      "package": "com.myhoneytip.gnob",
+      "versionCode": 1,
+      "config": {
+        "googleMobileAdsAppId": ""
+      },
+      "permissions": ["ACCESS_FINE_LOCATION", "ACCESS_COARSE_LOCATION"]
     },
     "web": {
       "favicon": "./assets/favicon.png"
