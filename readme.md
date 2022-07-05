@@ -8,6 +8,9 @@
 Montep95(Gnob) is a android, java, mobile-application Developer.
 
 # Update
+22.07.05 : Last Version
+- All the pages are complete. 
+
 22.06.30 : Linking database (Firebase)
 - Update Like Button
 - Upload (data.json) to realtime database

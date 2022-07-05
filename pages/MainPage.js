@@ -2,13 +2,22 @@ import React,{useState,useEffect} from 'react';
 import { StyleSheet, Text, View, Image, TouchableOpacity, ScrollView} from 'react-native';
 
 const main = 'https://storage.googleapis.com/sparta-image.appspot.com/lecture/main.png'
+// const main = 'https://firebasestorage.googleapis.com/v0/b/sparta-myhoneytip-gnob.appspot.com/o/main.png?alt=media&token=02e03264-5bcf-41f8-b480-c8ca4a88f916'
+
 import data from '../data.json';
 import Card from '../components/Card';
 import Loading from '../components/Loading';
 import { StatusBar } from 'expo-status-bar';
 import * as Location from "expo-location";
-import axios from "axios";
-import {firebase_db} from "../firebaseConfig";
+import axios from "axios"
+import {firebase_db} from "../firebaseConfig"
+import {
+  setTestDeviceIDAsync,
+  AdMobBanner,
+  AdMobInterstitial,
+  PublisherBanner,
+  AdMobRewarded
+} from 'expo-ads-admob';
 
 export default function MainPage({navigation,route}) {
   //useState 사용법
@@ -135,6 +144,25 @@ export default function MainPage({navigation,route}) {
         }
         
       </View>
+      {/* 
+        ca-app-pub-5579008343368676/9202552776
+        ca-app-pub-5579008343368676/6885179499
+      */}
+      {Platform.OS === 'ios' ? (
+                <AdMobBanner
+                  bannerSize="fullBanner"
+                  servePersonalizedAds={true}
+                  adUnitID="ca-app-pub-1163760891724569/5350578536"
+                  style={styles.banner}
+                />
+            ) : (
+                <AdMobBanner
+                  bannerSize="fullBanner"
+                  servePersonalizedAds={true}
+                  adUnitID="ca-app-pub-1163760891724569/5698062890"
+                  style={styles.banner}
+                />
+            )}
    
     </ScrollView>)
 }
@@ -246,6 +274,10 @@ weather:{
     color:"#fff",
     textAlign:"center",
     marginTop:10
+  },
+  banner:{
+    width:"100%",
+    height:100
   }
 
 
