@@ -7,7 +7,7 @@
 
 Montep95(Gnob) is a android, java, mobile-application Developer.
 
-![icon](https://user-images.githubusercontent.com/98328187/187179946-6b40b82c-d4a5-4cf3-8fd5-fbdc87f5bc75.png)
+<img src="https://user-images.githubusercontent.com/98328187/187179946-6b40b82c-d4a5-4cf3-8fd5-fbdc87f5bc75.png  width="200" height="200"/>
 
 # Update
 22.07.05 : Last Version
